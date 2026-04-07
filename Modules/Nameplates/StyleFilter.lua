@@ -225,10 +225,10 @@ G.nameplates.totemTypes = totemTypes
 -- Функция масштабирования иконок для старых клиентов
 local function ScaleIconFrame(frame, scale)
 	if not frame or not frame.IconFrame then return end
-	
+
 	local iconFrame = frame.IconFrame
 	scale = scale or (frame.ActionScale or 1)
-	
+
 	-- Сохраняем оригинальные размеры если нужно
 	if not iconFrame.origWidth then
 		iconFrame.origWidth = iconFrame:GetWidth()
@@ -238,7 +238,7 @@ local function ScaleIconFrame(frame, scale)
 			iconFrame.texture.origHeight = iconFrame.texture:GetHeight()
 		end
 	end
-	
+
 	-- Применяем масштаб
 	if iconFrame.SetScale then
 		iconFrame:SetScale(scale)
@@ -249,7 +249,7 @@ local function ScaleIconFrame(frame, scale)
 			iconFrame:SetHeight(iconFrame.origHeight * scale)
 		end
 	end
-	
+
 	-- Масштабируем текстуру внутри иконки
 	if iconFrame.texture and iconFrame.texture.origWidth then
 		if iconFrame.texture.SetScale then
