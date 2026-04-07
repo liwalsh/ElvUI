@@ -222,6 +222,45 @@ end
 
 G.nameplates.totemTypes = totemTypes
 
+-- Функция масштабирования иконок для старых клиентов
+local function ScaleIconFrame(frame, scale)
+	if not frame or not frame.IconFrame then return end
+	
+	local iconFrame = frame.IconFrame
+	scale = scale or (frame.ActionScale or 1)
+	
+	-- Сохраняем оригинальные размеры если нужно
+	if not iconFrame.origWidth then
+		iconFrame.origWidth = iconFrame:GetWidth()
+		iconFrame.origHeight = iconFrame:GetHeight()
+		if iconFrame.texture then
+			iconFrame.texture.origWidth = iconFrame.texture:GetWidth()
+			iconFrame.texture.origHeight = iconFrame.texture:GetHeight()
+		end
+	end
+	
+	-- Применяем масштаб
+	if iconFrame.SetScale then
+		iconFrame:SetScale(scale)
+	else
+		-- Ручное масштабирование для 3.3.5a
+		if iconFrame.origWidth and iconFrame.origHeight then
+			iconFrame:SetWidth(iconFrame.origWidth * scale)
+			iconFrame:SetHeight(iconFrame.origHeight * scale)
+		end
+	end
+	
+	-- Масштабируем текстуру внутри иконки
+	if iconFrame.texture and iconFrame.texture.origWidth then
+		if iconFrame.texture.SetScale then
+			iconFrame.texture:SetScale(scale)
+		else
+			iconFrame.texture:SetWidth(iconFrame.texture.origWidth * scale)
+			iconFrame.texture:SetHeight(iconFrame.texture.origHeight * scale)
+		end
+	end
+end
+
 function mod:StyleFilterAuraCheck(names, icons, mustHaveAll, missing, minTimeLeft, maxTimeLeft)
 	local total, count = 0, 0
 	for name, value in pairs(names) do
@@ -372,12 +411,20 @@ function mod:StyleFilterSetChanges(frame, actions, HealthColorChanged, BorderCha
 		frame.IconChanged = true
 		mod:Configure_IconFrame(frame)
 		mod:Update_IconFrame(frame)
+		-- Применяем масштаб к иконке
+		if actions.scale and actions.scale ~= 1 then
+			ScaleIconFrame(frame, actions.scale)
+		end
 	end
 	if IconOnlyChanged and (mod.Totems[frame.UnitName] or mod.UniqueUnits[frame.UnitName]) then
 		frame.StyleChanged = true
 		frame.IconOnlyChanged = true
 		mod:Configure_IconFrame(frame, true)
 		mod:Update_IconFrame(frame)
+		-- Применяем масштаб к иконке
+		if actions.scale and actions.scale ~= 1 then
+			ScaleIconFrame(frame, actions.scale)
+		end
 		if frame.CastBar:IsShown() then frame.CastBar:Hide() end
 		if frame.Health:IsShown() then frame.Health:Hide() end
 		frame.Level:SetText()
@@ -463,6 +510,15 @@ function mod:StyleFilterClearChanges(frame, HealthColorChanged, BorderChanged, F
 	if IconChanged then
 		frame.IconChanged = nil
 		frame.IconFrame:Hide()
+		-- Восстанавливаем оригинальный масштаб иконки
+		if frame.IconFrame and frame.IconFrame.origWidth then
+			frame.IconFrame:SetWidth(frame.IconFrame.origWidth)
+			frame.IconFrame:SetHeight(frame.IconFrame.origHeight)
+			if frame.IconFrame.texture and frame.IconFrame.texture.origWidth then
+				frame.IconFrame.texture:SetWidth(frame.IconFrame.texture.origWidth)
+				frame.IconFrame.texture:SetHeight(frame.IconFrame.texture.origHeight)
+			end
+		end
 	end
 	if IconOnlyChanged then
 		frame.IconOnlyChanged = nil
@@ -488,6 +544,15 @@ function mod:StyleFilterClearChanges(frame, HealthColorChanged, BorderChanged, F
 		end
 		mod:Update_RaidIcon(frame)
 		mod:Configure_NameOnlyGlow(frame)
+		-- Восстанавливаем оригинальный масштаб иконки
+		if frame.IconFrame and frame.IconFrame.origWidth then
+			frame.IconFrame:SetWidth(frame.IconFrame.origWidth)
+			frame.IconFrame:SetHeight(frame.IconFrame.origHeight)
+			if frame.IconFrame.texture and frame.IconFrame.texture.origWidth then
+				frame.IconFrame.texture:SetWidth(frame.IconFrame.texture.origWidth)
+				frame.IconFrame.texture:SetHeight(frame.IconFrame.texture.origHeight)
+			end
+		end
 	end
 end
 
@@ -688,7 +753,7 @@ function mod:StyleFilterPass(frame, actions)
 		(healthBarShown and actions.color and actions.color.border and frame.Health.backdrop), --BorderChanged
 		(healthBarShown and actions.flash and actions.flash.enable and frame.FlashTexture), --FlashingHealth
 		(healthBarShown and actions.texture and actions.texture.enable), --TextureChanged
-		(healthBarShown and actions.scale and actions.scale ~= 1), --ScaleChanged
+		(healthBarShown and actions.scale and actions.scale ~= 1) or (actions.icon and actions.scale and actions.scale ~= 1) or (actions.iconOnly and actions.scale and actions.scale ~= 1), --ScaleChanged
 		(actions.frameLevel and actions.frameLevel ~= 0), --FrameLevelChanged
 		(actions.alpha and actions.alpha ~= -1), --AlphaChanged
 		(actions.color and actions.color.name), --NameColorChanged
