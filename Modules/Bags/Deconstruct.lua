@@ -109,6 +109,7 @@ local millableHerbs = {
 	[2453] = true, -- Bruiseweed
 	[3820] = true, -- Stranglekelp
 	[3369] = true, -- Grave Moss
+	[3355] = true, -- Wild Steelbloom
 	[3356] = true, -- Kingsblood
 	[3357] = true, -- Liferoot
 	[3818] = true, -- Fadeleaf
