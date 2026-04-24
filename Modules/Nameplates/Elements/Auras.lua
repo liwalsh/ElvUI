@@ -14,7 +14,7 @@ local CreateFrame = CreateFrame
 local GetSpellInfo = GetSpellInfo
 local GetTime = GetTime
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS
-local INP = C_NamePlate and true or false
+local INP = false
 local CREATED, VISIBLE, HIDDEN = 2, 1, 0
 
 local positionValues = {

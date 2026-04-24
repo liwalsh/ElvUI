@@ -4,7 +4,7 @@ local S = E:GetModule("Sirus")
 -- local DT = E:GetModule("DataTexts")
 -- local DB = E:GetModule("DataBars")
 
-local INP = C_NamePlate and true or false
+local INP = false
 local name
 
 -- if C_BattlefieldScoreManager then
