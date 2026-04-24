@@ -36,7 +36,7 @@ local UnitReaction = UnitReaction
 local UnitName = UnitName
 local WorldFrame = WorldFrame
 
-local INP = C_NamePlate and true or false
+local INP = false
 -- local utf8sub = string.utf8sub
 -- local utf8lower = string.utf8lower
 local WorldGetChildren = WorldFrame.GetChildren
