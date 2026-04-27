@@ -40,18 +40,37 @@ function B:ObjectiveTracker_AutoHideOnHide()
 end
 
 function B:ObjectiveTracker_Setup()
-	ObjectiveTrackerFrameScrollFrameScrollBar:Hide()
 	InterfaceOptionsObjectivesPanelTrackerFontSize:Hide()
 	InterfaceOptionsObjectivesPanelTrackerOpacity:Hide()
 	InterfaceOptionsObjectivesPanelTrackerHeight:Hide()
 	InterfaceOptionsObjectivesPanelTrackerResetPosition:Hide()
 	InterfaceOptionsObjectivesPanelTrackerToggleSelection:Hide()
-	-- TODO ALPHA PARAMS IN CONFIG
 	InterfaceOptionsObjectivesPanelTrackerHeaderAlpha:Hide()
 	InterfaceOptionsObjectivesPanelTrackerStyle:Hide()
-	hooksecurefunc(ObjectiveTrackerFrameScrollFrameScrollBar, "Show", function(frame)
-		frame:Hide()
-	end)
+
+	local scrollFrame = ObjectiveTrackerFrameScrollFrame
+	local scrollBar = ObjectiveTrackerFrameScrollFrameScrollBar
+	
+	if scrollFrame then
+		scrollBar:Hide()
+		scrollBar.Show = function() end
+		
+		scrollFrame:EnableMouseWheel(true)
+		scrollFrame:SetScript("OnMouseWheel", function(self, delta)
+			local currentValue = scrollBar:GetValue()
+			local minValue, maxValue = scrollBar:GetMinMaxValues()
+			local newValue = currentValue - (delta * 30) -- 30 - скорость прокрутки
+			
+			if newValue < minValue then
+				newValue = minValue
+			elseif newValue > maxValue then
+				newValue = maxValue
+			end
+			
+			scrollBar:SetValue(newValue)
+		end)
+	end
+	
 	local holder = CreateFrame('Frame', 'ObjectiveFrameHolder', E.UIParent)
 	holder:Point('TOPRIGHT', E.UIParent, -135, -300)
 	local w, _ = ObjectiveTrackerFrame:GetSize()
