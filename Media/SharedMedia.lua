@@ -95,6 +95,8 @@ E.Media = {
 		Invisible = M..[[Fonts\Invisible.ttf]],
 		PTSansNarrow = M..[[Fonts\PTSansNarrow.ttf]],
 		Magistral = M..[[Fonts\Magistral.ttf]]
+		SFUIDisplayCondensedBold = M..[[Fonts\SFUIDisplayCondensed-Bold.ttf]]
+		SFUIDisplayCondensedSemibold = M..[[Fonts\SFUIDisplayCondensed-Semibold.ttf]]
 	},
 	Sounds = {
 		AwwCrap = M..[[Sounds\AwwCrap.ogg]],
@@ -194,6 +196,12 @@ E.Media = {
 		Melli = M..[[Textures\Melli.tga]],
 		Minimalist = M..[[Textures\Minimalist.tga]],
 		HealBot14 = M..[[Textures\HealBot14.tga]],
+		Flatt = M..[[Textures\Flatt.blp]],
+		MerfinMainTexture = M..[[Textures\MerfinTexture.blp]],
+		MerfinMain = M..[[Textures\MerfinMain.tga]],
+		MerfinMainLeft = M..[[Textures\MerfinMainLeft.tga]],
+		MerfinMainRight = M..[[Textures\MerfinMainRight.tga]],
+		MerfinMainDark = M..[[Textures\MerfinMainDark.tga]],
 		Minus = M..[[Textures\Minus.tga]],
 		MinusButton = M..[[Textures\MinusButton.tga]],
 		Nameplates = M..[[Textures\Nameplates.blp]],
@@ -234,6 +242,8 @@ do
 	LSM:Register(MediaType_FONT, "PT Sans Narrow", E.Media.Fonts.PTSansNarrow, LSM.LOCALE_BIT_ruRU + LSM.LOCALE_BIT_western)
 	LSM:Register(MediaType_FONT, "Homespun", E.Media.Fonts.Homespun, LSM.LOCALE_BIT_ruRU + LSM.LOCALE_BIT_western)
 	LSM:Register(MediaType_FONT, "Magistral",E.Media.Fonts.Magistral,LSM.LOCALE_BIT_ruRU + LSM.LOCALE_BIT_western)
+	LSM:Register(MediaType_FONT, "SFUIDisplayCondensed-Bold",E.Media.Fonts.Magistral,LSM.LOCALE_BIT_ruRU + LSM.LOCALE_BIT_western)
+	LSM:Register(MediaType_FONT, "SFUIDisplayCondensed-Semibold",E.Media.Fonts.Magistral,LSM.LOCALE_BIT_ruRU + LSM.LOCALE_BIT_western)
 	LSM:Register(MediaType_SOUND, "ElvUI Aska", E.Media.Sounds.SndIncMsg)
 	LSM:Register(MediaType_SOUND, "Awww Crap", E.Media.Sounds.AwwCrap)
 	LSM:Register(MediaType_SOUND, "BBQ Ass", E.Media.Sounds.BbqAss)
@@ -251,4 +261,10 @@ do
 	LSM:Register(MediaType_STATUSBAR, "Minimalist", E.Media.Textures.Minimalist)
 	LSM:Register(MediaType_STATUSBAR, "ElvUI Blank", E.Media.Textures.White8x8)
 	LSM:Register(MediaType_BACKGROUND, "ElvUI Blank", E.Media.Textures.White8x8)
+	LSM:Register(MediaType_BACKGROUND, "Flatt", E.Media.Textures.Flatt)
+	LSM:Register(MediaType_BACKGROUND, "Merfin Main Texture", E.Media.Textures.MerfinMainTexture)
+	LSM:Register(MediaType_BACKGROUND, "MerfinMain", E.Media.Textures.MerfinMain)
+	LSM:Register(MediaType_BACKGROUND, "MerfinMainLeft", E.Media.Textures.MerfinMainLeft)
+	LSM:Register(MediaType_BACKGROUND, "MerfinMainRight", E.Media.Textures.MerfinMainRight)
+	LSM:Register(MediaType_BACKGROUND, "MerfinMainDark", E.Media.Textures.MerfinMainDark)
 end
